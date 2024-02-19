@@ -20,6 +20,7 @@ public class TaskDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_details);
 
+        da = new TaskDataAccess(this);
         Intent i = getIntent();
         long id = i.getLongExtra(EXTRA_TASK_ID, 0);
         if (id > 0){
