@@ -38,6 +38,7 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(TaskListActivity.this, TaskDetails.class);
+                startActivity(i);
             }
         });
 
