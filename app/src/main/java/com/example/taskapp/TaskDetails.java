@@ -3,12 +3,16 @@ package com.example.taskapp;
 import androidx.annotation.LongDef;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.taskapp.dataaccess.TaskDataAccess;
@@ -31,6 +35,7 @@ public class TaskDetails extends AppCompatActivity {
     EditText txtDueDate;
     CheckBox chkDone;
     Button btnSave;
+    Button btnDelete;
     SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,7 @@ public class TaskDetails extends AppCompatActivity {
         txtDueDate = findViewById(R.id.txtDueDate);
         chkDone = findViewById(R.id.chkDone);
         btnSave = findViewById(R.id.btnSave);
+        btnDelete = findViewById(R.id.btnDelete);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +56,18 @@ public class TaskDetails extends AppCompatActivity {
             }
         });
 
+        txtDueDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker();
+            }
+        });
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteDialog();
+            }
+        });
 
         da = new TaskDataAccess(this);
         Intent i = getIntent();
@@ -59,6 +77,8 @@ public class TaskDetails extends AppCompatActivity {
             Log.d(TAG, "id of task to get: " + id);
 //            Log.d(TAG, task.toString());
             putDataIntoUI();
+            btnDelete.setVisibility(View.VISIBLE);
+
         }else {
             task = new Task("", null, false);
             Log.d(TAG, "No task to get, create a new one.");
@@ -103,6 +123,7 @@ public class TaskDetails extends AppCompatActivity {
             if(task.getId()>0){
                 try {
                     da.updateTask(task);
+                    return true;
                 } catch (Exception e) {
                     Log.d(TAG, "Failed to update" + e.getMessage());
                     return false;
@@ -110,13 +131,14 @@ public class TaskDetails extends AppCompatActivity {
             }else{
                 try {
                     da.insertTask(task);
+                    return true;
                 } catch (Exception e) {
                     Log.d(TAG, "Failed to insert" + e.getMessage());
                     return false;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     private void getDataFromUI(){
@@ -137,6 +159,43 @@ public class TaskDetails extends AppCompatActivity {
         }else{
             Log.d(TAG,"Task is null");
         }
+    }
+
+    private void showDatePicker(){
+        Date today = new Date();
+        int year = today.getYear() + 1900;
+        int month = today.getMonth();
+        int day = today.getDate();
+
+        DatePickerDialog dp = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String selectedDate = (month+1) + "/" + dayOfMonth + "/" + year;
+                txtDueDate.setText(selectedDate);
+            }
+        }, year, month, day);
+        dp.show();
+    }
+
+    private void showDeleteDialog(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(R.string.delete_title);
+        alert.setMessage(R.string.delete_message);
+        alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                da.deleteTask(task);
+                Intent i = new Intent(TaskDetails.this, TaskListActivity.class);
+                startActivity(i);
+            }
+        });
+        alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alert.show();
     }
 
 }
