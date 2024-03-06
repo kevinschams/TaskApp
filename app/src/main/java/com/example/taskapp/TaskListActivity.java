@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,9 +34,9 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
-//        btnAddTask = findViewById(R.id.btnAddTask);
         da = new TaskDataAccess(this);
         allTasks = da.getAllTasks();
+        //        btnAddTask = findViewById(R.id.btnAddTask);
 //        btnAddTask.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -45,7 +46,6 @@ public class TaskListActivity extends AppCompatActivity {
 //        });
 
         lsTasks = findViewById(R.id.lsTasks);
-//        Log.d(TAG, allTasks.toString());
         example();
     }
 
@@ -62,6 +62,29 @@ public class TaskListActivity extends AppCompatActivity {
                 lbl1.setText(curTask.getDescription());
                 checkBox.setChecked(curTask.isDone());
 
+
+                checkBox.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        curTask.setDone(checkBox.isChecked());
+
+                        try {
+                            da.updateTask(curTask);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+
+                lbl1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        long id = curTask.getId();
+                        Intent i = new Intent(TaskListActivity.this, TaskDetails.class);
+                        i.putExtra("USER_ID", id);
+                        startActivity(i);
+                    }
+                });
                 return listItemView;
             }
 

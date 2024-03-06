@@ -12,7 +12,15 @@
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        android:text="@string/btn_add_task" />-->
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Task List Activity"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="#800080"/>
     <ListView
         android:id="@+id/lsTasks"
         android:layout_width="match_parent"
