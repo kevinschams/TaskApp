@@ -1,6 +1,7 @@
 package com.example.taskapp;
 
 import androidx.annotation.LongDef;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -53,7 +54,8 @@ public class TaskListActivity extends AppCompatActivity {
     public void example() {
         ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this, R.layout.custom_task_list_item, R.id.lbl1, allTasks) {
 
-            public View getView(int position, View convertView, ViewGroup parentListView) {
+            @NonNull
+            public View getView(int position, View convertView, @NonNull ViewGroup parentListView) {
                 View listItemView = super.getView(position, convertView, parentListView);
                 TextView lbl1 = listItemView.findViewById(R.id.lbl1);
                 CheckBox checkBox = listItemView.findViewById(R.id.checkBox);
@@ -70,6 +72,7 @@ public class TaskListActivity extends AppCompatActivity {
 
                         try {
                             da.updateTask(curTask);
+                            Log.d(TAG, "Updated task!!" + curTask);
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }

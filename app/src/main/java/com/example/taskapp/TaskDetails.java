@@ -1,6 +1,5 @@
 package com.example.taskapp;
 
-import androidx.annotation.LongDef;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -198,4 +197,6 @@ public class TaskDetails extends AppCompatActivity {
         alert.show();
     }
 
+    public static interface Taskable {
+    }
 }
