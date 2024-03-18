@@ -69,6 +69,6 @@ public class MainActivity extends AppCompatActivity {
 //
 //        Log.d(TAG, da.convertTaskToCSV(testTask));
 //        da.saveTasks();
-        da.loadTasks();
+//        da.loadTasks();
     }
 }

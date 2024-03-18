@@ -16,5 +16,5 @@ public interface Taskable {
 
     public Task insertTask(Task t) throws Exception;
 
-    public int deleteTask(String taskId);
+    public int deleteTask(Task t);
 }

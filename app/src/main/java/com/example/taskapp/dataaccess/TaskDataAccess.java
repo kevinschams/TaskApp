@@ -2,12 +2,13 @@ package com.example.taskapp.dataaccess;
 
 import android.content.Context;
 
+import com.example.taskapp.Taskable;
 import com.example.taskapp.models.Task;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class TaskDataAccess {
+public class TaskDataAccess implements Taskable {
 
      public static ArrayList<Task> allTasks = new ArrayList<Task>(){{
           add(new Task(1, "Mow the lawn", new Date(124, 0, 1), false));
@@ -53,6 +54,7 @@ public class TaskDataAccess {
                throw new Exception("INVALID TASK ON INSERT");
           }
      }
+
 
      public Task updateTask(Task t) throws Exception{
           if(t.isValid()){

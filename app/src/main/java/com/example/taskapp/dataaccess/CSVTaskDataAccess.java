@@ -21,9 +21,10 @@ public class CSVTaskDataAccess implements Taskable {
     public CSVTaskDataAccess(Context c){
         this.context = c;
         this.allTasks = new ArrayList<Task>();
+        loadTasks();
     }
 
-    public void loadTasks(){
+    private void loadTasks(){
         String dataString = fileio.FileHelper.readFromFile(DATA_FILE, context);
 //        Log.d(TAG, dataString);
         ArrayList<Task> list = new ArrayList<>();
@@ -83,28 +84,67 @@ public class CSVTaskDataAccess implements Taskable {
         return String.format("%d,%s,%s,%s", t.getId(),t.getDescription(),dateStr,t.isDone() ? "true" : "false");
     }
 
+    private long getMaxId(){
+        long maxId = 0;
+        for(Task t : allTasks){
+            if(t.getId() > maxId){
+                maxId = t.getId();
+            }
+        }
+        return maxId;
+    }
     @Override
     public Task getTaskById(long taskId) {
+        for(Task t : allTasks){
+            if(t.getId() == taskId){
+                return t;
+            }
+        }
         return null;
     }
 
     @Override
     public ArrayList<Task> getAllTasks() {
-        return null;
+        loadTasks();
+        return allTasks;
     }
 
     @Override
     public Task updateTask(Task task) throws Exception {
-        return null;
+        if(task.isValid()){
+            Task taskToUpdate = getTaskById(task.getId());
+            taskToUpdate.setDescription(task.getDescription());
+            taskToUpdate.setDone(task.isDone());
+            taskToUpdate.setDue(task.getDue());
+            saveTasks();
+        }else {
+            throw new Exception("Invalid Task");
+        }
+        return task;
     }
 
     @Override
     public Task insertTask(Task t) throws Exception {
-        return null;
+        if(t.isValid()){
+            long newId = getMaxId() + 1;
+            t.setId(newId);
+            allTasks.add(t);
+            saveTasks();
+        }else {
+            throw new Exception("Invalid Task.");
+        }
+        return t;
     }
 
     @Override
-    public int deleteTask(String taskId) {
-        return 0;
+    public int deleteTask(Task t) {
+        Task taskToRemove = getTaskById(t.getId());
+        if(taskToRemove != null){
+            allTasks.remove(taskToRemove);
+            saveTasks();
+            return 1;
+        }else{
+            return 0;
+        }
     }
 }

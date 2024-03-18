@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.example.taskapp.dataaccess.CSVTaskDataAccess;
 import com.example.taskapp.dataaccess.TaskDataAccess;
 import com.example.taskapp.models.Task;
 
@@ -27,7 +28,7 @@ public class TaskDetails extends AppCompatActivity {
 
     public static final String TAG = "TaskDetails";
     public static final String EXTRA_TASK_ID = "taskId";
-    TaskDataAccess da;
+    Taskable da;
     Task task;
 
     EditText txtDescription;
@@ -69,6 +70,7 @@ public class TaskDetails extends AppCompatActivity {
         });
 
         da = new TaskDataAccess(this);
+
         Intent i = getIntent();
         long id = i.getLongExtra(EXTRA_TASK_ID, 0);
         if (id > 0){
@@ -86,6 +88,7 @@ public class TaskDetails extends AppCompatActivity {
 
     private void putDataIntoUI(){
         if(task != null){
+//            Log.d(TAG, task.toString());
             txtDescription.setText(task.getDescription());
             String dateStr = null;
             dateStr = sdf.format(task.getDue());
@@ -161,6 +164,7 @@ public class TaskDetails extends AppCompatActivity {
     }
 
     private void showDatePicker(){
+//        Date d = task.getDue();
         Date today = new Date();
         int year = today.getYear() + 1900;
         int month = today.getMonth();
@@ -197,6 +201,5 @@ public class TaskDetails extends AppCompatActivity {
         alert.show();
     }
 
-    public static interface Taskable {
-    }
+
 }
