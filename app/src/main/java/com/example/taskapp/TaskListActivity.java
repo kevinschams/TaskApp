@@ -36,16 +36,16 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
-        da = new TaskDataAccess(this);
+        da = new CSVTaskDataAccess(this);
         allTasks = da.getAllTasks();
-        //        btnAddTask = findViewById(R.id.btnAddTask);
-//        btnAddTask.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(TaskListActivity.this, TaskDetails.class);
-//                startActivity(i);
-//            }
-//        });
+        btnAddTask = findViewById(R.id.btnAddTask);
+        btnAddTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(TaskListActivity.this, TaskDetails.class);
+                startActivity(i);
+            }
+        });
 
         lsTasks = findViewById(R.id.lsTasks);
         example();
@@ -84,8 +84,10 @@ public class TaskListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         long id = curTask.getId();
+                        Log.d(TAG, "onClick: " + id);
+//                        Task id = allTasks.get(position);
                         Intent i = new Intent(TaskListActivity.this, TaskDetails.class);
-                        i.putExtra("USER_ID", id);
+                        i.putExtra(TaskDetails.EXTRA_TASK_ID, id);
                         startActivity(i);
                     }
                 });

@@ -7,11 +7,6 @@
     tools:context=".TaskListActivity"
     android:orientation="vertical">
 
-<!--    <Button-->
-<!--        android:id="@+id/btnAddTask"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/btn_add_task" />-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +16,11 @@
         android:gravity="center"
         android:padding="16dp"
         android:background="#800080"/>
+    <Button
+        android:id="@+id/btnAddTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_add_task" />
     <ListView
         android:id="@+id/lsTasks"
         android:layout_width="match_parent"

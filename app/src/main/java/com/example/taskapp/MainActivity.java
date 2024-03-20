@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.taskapp.dataaccess.CSVTaskDataAccess;
 import com.example.taskapp.dataaccess.TaskDataAccess;
 import com.example.taskapp.models.Task;
+import com.example.taskapp.sqlite.SQLTaskDataAccess;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
 //        Log.d(TAG, "Num rows: " + numRows);
 //        Log.d(TAG, tda.getAllTasks().toString());
 
-        Task testTask = new Task(1, "Blah", new Date(), true);
-        CSVTaskDataAccess da = new CSVTaskDataAccess(this);
+//        Task testTask = new Task(1, "Blah", new Date(), true);
+//        CSVTaskDataAccess da = new CSVTaskDataAccess(this);
+        SQLTaskDataAccess da = new SQLTaskDataAccess(this);
 //
 //        Log.d(TAG, da.convertTaskToCSV(testTask));
 //        da.saveTasks();

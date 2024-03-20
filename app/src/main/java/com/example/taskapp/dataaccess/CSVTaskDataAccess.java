@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 public class CSVTaskDataAccess implements Taskable {
+
     public static final String TAG = "CSVTaskDataAccess";
     public static final String DATA_FILE = "task.csv";
     private ArrayList<Task> allTasks;

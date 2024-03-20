@@ -27,7 +27,10 @@ import java.util.regex.Pattern;
 public class TaskDetails extends AppCompatActivity {
 
     public static final String TAG = "TaskDetails";
-    public static final String EXTRA_TASK_ID = "taskId";
+    public static final String EXTRA_TASK_ID = "";
+    public static final String USER_ID = "taskId";
+
+
     Taskable da;
     Task task;
 
@@ -69,14 +72,17 @@ public class TaskDetails extends AppCompatActivity {
             }
         });
 
-        da = new TaskDataAccess(this);
+        da = new CSVTaskDataAccess(this);
 
         Intent i = getIntent();
-        long id = i.getLongExtra(EXTRA_TASK_ID, 0);
+
+        long id = i.getLongExtra(TaskDetails.EXTRA_TASK_ID, 0);
+        Log.d(TAG, "id" + id);
+
         if (id > 0){
             task = da.getTaskById(id);
             Log.d(TAG, "id of task to get: " + id);
-//            Log.d(TAG, task.toString());
+            Log.d(TAG, task.toString());
             putDataIntoUI();
             btnDelete.setVisibility(View.VISIBLE);
 
