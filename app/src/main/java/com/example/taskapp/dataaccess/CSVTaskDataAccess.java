@@ -29,11 +29,16 @@ public class CSVTaskDataAccess implements Taskable {
         String dataString = fileio.FileHelper.readFromFile(DATA_FILE, context);
 //        Log.d(TAG, dataString);
         ArrayList<Task> list = new ArrayList<>();
-        String[] lines = dataString.split("\n");
-        for(String line : lines){
-            Task t = convertCSVToTask(line);
-            list.add(t);
+        if(dataString != null){
+            String[] lines = dataString.split("\n");
+            for(String line : lines){
+                Task t = convertCSVToTask(line);
+                list.add(t);
+            }
+        }else{
+            Log.d(TAG, "NO TASK TO LOAD");
         }
+
         allTasks = list;
         Log.d(TAG, allTasks.toString());
     }

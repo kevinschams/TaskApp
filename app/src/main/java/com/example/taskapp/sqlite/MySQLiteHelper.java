@@ -29,10 +29,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // RUN THE SQL QUERIES THAT CREATE YOUR DATABASE IN THIS METHOD
 
         // ALL SQL QUERIES SHOULD BE DEFINED IN THE SQLTaskDataAccess class
-            //String taskTableSQL = SQLTaskDataAccess.TABLE_CREATE;
+        String taskTableSQL = SQLTaskDataAccess.TABLE_CREATE;
 
         // BUT FOR NOW, WE'LL JUST DO THIS:
-        String taskTableSQL = "create table tasks (_id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT, due TEXT, done INTEGER )";
+//        String taskTableSQL = "create table tasks (_id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT, due TEXT, done INTEGER )";
 
         db.execSQL(taskTableSQL);
             Log.d(TAG, taskTableSQL);

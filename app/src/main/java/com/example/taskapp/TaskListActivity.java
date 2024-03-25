@@ -38,17 +38,25 @@ public class TaskListActivity extends AppCompatActivity {
 
         da = new CSVTaskDataAccess(this);
         allTasks = da.getAllTasks();
-        btnAddTask = findViewById(R.id.btnAddTask);
-        btnAddTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(TaskListActivity.this, TaskDetails.class);
-                startActivity(i);
-            }
-        });
 
-        lsTasks = findViewById(R.id.lsTasks);
-        example();
+        if(allTasks.size()==0){
+            Intent i = new Intent(TaskListActivity.this, TaskDetails.class);
+            startActivity(i);
+        }else {
+
+            btnAddTask = findViewById(R.id.btnAddTask);
+            btnAddTask.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(TaskListActivity.this, TaskDetails.class);
+                    startActivity(i);
+                }
+            });
+        }
+
+            lsTasks = findViewById(R.id.lsTasks);
+            example();
+
     }
 
 

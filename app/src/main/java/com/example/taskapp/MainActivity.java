@@ -68,7 +68,13 @@ public class MainActivity extends AppCompatActivity {
 //        Task testTask = new Task(1, "Blah", new Date(), true);
 //        CSVTaskDataAccess da = new CSVTaskDataAccess(this);
         SQLTaskDataAccess da = new SQLTaskDataAccess(this);
-//
+        da.insertTask(new Task("Do Sumn", new Date(), false));
+
+        ArrayList<Task> allT = da.getAllTasks();
+        Log.d(TAG, allT.toString());
+
+        da.getTaskById(1);
+        //
 //        Log.d(TAG, da.convertTaskToCSV(testTask));
 //        da.saveTasks();
 //        da.loadTasks();
