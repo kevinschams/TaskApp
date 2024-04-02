@@ -85,9 +85,23 @@ public class SQLTaskDataAccess implements Taskable {
     @Override
     public Task getTaskById(long id) {
         String query = String.format("SELECT %s, %s, %s, %s FROM %s WHERE %s = %d", COLUMN_TASK_ID, COLUMN_DESCRIPTION, COLUMN_DUE, COLUMN_DONE, TABLE_NAME, COLUMN_TASK_ID, id);
-//        Log.d(TAG, query);
+        Log.d(TAG, query);
+        Cursor c = database.rawQuery(query, null);
+        c.moveToFirst();
+        String desc = c.getString(1);
+        String due = c.getString(2);
+        boolean done = c.getLong(3) == 1 ? true : false;
 
-        return null;
+        Date dueDate = null;
+        try{
+            dueDate = dateFormat.parse(due);
+        }catch(ParseException e){
+//            throw new RuntimeException(e);
+            Log.d(TAG, "Unable to convert date in getTaskById");
+        }
+        c.close();
+        Task t = new Task(id,desc,dueDate,done);
+        return t;
 
     }
 
@@ -104,11 +118,17 @@ public class SQLTaskDataAccess implements Taskable {
 
     @Override
     public Task updateTask(Task t) {
-        return null;
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_DESCRIPTION, t.getDescription());
+        values.put(COLUMN_DUE, dateFormat.format(t.getDue()));
+        values.put(COLUMN_DONE, t.isDone() ? 1 : 0);
+        database.update(TABLE_NAME, values, COLUMN_TASK_ID + " = " + t.getId(), null);
+        return t;
     }
 
     @Override
     public int deleteTask(Task t) {
-        return 0;
+        int rowDeleted = database.delete(TABLE_NAME, COLUMN_TASK_ID + " = " + t.getId(), null);
+        return rowDeleted;
     }
 }
